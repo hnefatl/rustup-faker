@@ -6,5 +6,5 @@ in
 
         # Don't extract from a source, just copy the script over
         unpackPhase = "true";
-        installPhase = ''mkdir -p "$out" && cp "${./rustup}" "$out/rustup"'';
+        installPhase = ''mkdir -p "$out/bin" && cp "${./rustup}" "$out/bin/rustup"'';
     }
