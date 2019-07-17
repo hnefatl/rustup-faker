@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+if [[ $# -eq 0 ]] ; then
+    echo "rustup: script that impersonates rustup for cheating nix"
+    exit 0
+fi
+
+function print_toolchain_name {
+    # Eg. "1.33.0-x86_64-unknown-linux-gnu"
+    echo "$(rust_version)-$(print_machine_triple)"
+}
+function rust_version {
+    rustc --version | awk '{print $2}'
+}
+function print_machine_triple {
+    gcc -dumpmachine
+}
+
+if [[ "$1" == "run" ]] ; then
+    shift # Remove "run"
+    shift # Remove the toolchain specifier
+    exec "$@"
+elif [[ "$1" == "update" ]] ; then
+    echo "foo"
+elif [[ "$1" == "toolchain" ]] && [[ "$2" == "list" ]] ; then
+    echo "$(print_toolchain_name) (default)"
+elif [[ "$1" == "component" ]] && [[ "$2" == "list" ]] ; then
+    # From REQUIRED_COMPONENTS in "https://github.com/rust-lang/rls-vscode/blob/master/src/rustup.ts"
+    echo "rust-analysis-$(print_machine_triple) (installed)"
+    echo "rust-src-$(print_machine_triple) (installed)"
+    echo "rls-$(print_machine_triple) (installed)"
+elif [[ "$1" == "show" ]] && [[ "$2" == "active-toolchain" ]]; then
+    print_toolchain_name
+else
+    echo "Unknown command: $*"
+    exit -1
+fi
