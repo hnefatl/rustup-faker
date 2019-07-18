@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [[ ! -z "$RUSTUP_LOG" ]] ; then
+    echo "$(date "+%H:%M:%S"): $*" >> /tmp/rustup_faker_log
+fi
+
 if [[ $# -eq 0 ]] ; then
     echo "rustup: script that impersonates rustup for cheating nix"
     exit 0
