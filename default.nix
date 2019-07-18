@@ -6,5 +6,8 @@ in
 
         phases = [ "installPhase" "fixupPhase" ];
 
-        installPhase = ''mkdir -p "$out/bin" && cp "${./rustup}" "$out/bin/rustup"'';
+        installPhase = ''
+            mkdir -p "$out/bin"
+            cp "${./rustup}" "$out/bin/rustup"
+        '';
     }
